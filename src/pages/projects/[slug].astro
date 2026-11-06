@@ -1,7 +1,7 @@
 ---
 import { url } from '../../lib/url';
 import type { GetStaticPaths } from 'astro';
-import { ArrowLeft, ArrowRight, ChevronRight, Info, ShieldCheck, Gauge, Mail } from '@lucide/astro';
+import { ArrowLeft, ArrowRight, Check, ChevronRight, Info, ShieldCheck, Gauge, Mail } from '@lucide/astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
 import FeatureCard from '../../components/FeatureCard.astro';
@@ -97,6 +97,8 @@ const techGroups = [project.stack, project.integrations].filter((g): g is NonNul
   <section class="border-y border-line bg-subtle py-20 sm:py-24" aria-labelledby="challenge-title">
     <div class="container-page">
       <SectionHeading id="challenge-title" eyebrow="The challenge" title="What had to change" description={project.challenge.intro} />
+      {
+        project.challenge.shifts?.length ? (
       <div class="mt-12 overflow-hidden rounded-xl border border-line bg-white">
         <div class="hidden grid-cols-[1fr_auto_1fr] gap-6 border-b border-line bg-subtle px-6 py-3 text-xs font-semibold tracking-wide text-muted uppercase md:grid">
           <span>Before</span><span class="w-5"></span><span>With {project.shortName}</span>
@@ -119,6 +121,17 @@ const techGroups = [project.stack, project.integrations].filter((g): g is NonNul
           }
         </ul>
       </div>
+        ) : (
+          <ul class="mt-12 grid gap-4 sm:grid-cols-2">
+            {project.challenge.points?.map((point) => (
+              <li class="flex gap-3 rounded-xl border border-line bg-white p-5">
+                <Check class="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
+                <span class="text-[15px] leading-relaxed text-slate-700">{point}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      }
     </div>
   </section>
 

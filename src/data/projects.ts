@@ -14,6 +14,16 @@
  */
 import {
   Activity,
+  Ban,
+  Car,
+  CarFront,
+  CalendarCheck,
+  KeyRound,
+  ListChecks,
+  Megaphone,
+  Receipt,
+  Settings2,
+  Tags,
   CalendarClock,
   ChartLine,
   Clock,
@@ -78,7 +88,8 @@ export interface Project {
   highlights: string[];
   overview: string[];
   audience: { title: string; description: string }[];
-  challenge: { intro: string; shifts: { before: string; after: string }[] };
+  /** Use `shifts` when the source documents a before/after comparison; otherwise `points`. */
+  challenge: { intro: string; shifts?: { before: string; after: string }[]; points?: string[] };
   approach: { intro: string; title: string; steps: { title: string; description: string }[] };
   features: { icon: Icon; title: string; description: string }[];
   safeguards?: { intro: string; items: string[] };
@@ -901,6 +912,167 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: 'vehicle-information-and-sticker-system',
+    shortName: 'UVISS',
+    acronym: 'UVISS',
+    name: 'UPLB Vehicle Information and Sticker System',
+    partner: 'the Office of the Vice Chancellor for Community Affairs (OVCCA) and the Security and Safety Office (SSO)',
+    domain: 'Campus vehicles',
+    icon: CarFront,
+    status: { label: 'In production', tone: 'live' },
+    tagline: 'Campus vehicle stickers applied for, processed and released online.',
+    summary:
+      'UVISS replaces the paper-based vehicle sticker application with one online workflow. Applicants register their vehicles and submit requirements online, and campus offices verify, inspect, record payment and release stickers in the same system.',
+    problem: 'A paper-based vehicle sticker application, handled step by step across campus offices.',
+    highlights: ['Online applications', 'Status tracking', 'Release appointments'],
+    overview: [
+      'The UPLB Vehicle Information and Sticker System is the online system for applying for, processing and issuing UPLB vehicle stickers, which vehicles need to enter or operate on campus.',
+      'The Office of the Vice Chancellor for Community Affairs owns the program and sets its policies, categories, periods and fees. The Security and Safety Office runs it day to day: verifying applications, inspecting vehicles, and issuing and releasing stickers.',
+    ],
+    audience: [
+      {
+        title: 'UPLB constituents',
+        description:
+          'Administrative staff, faculty and REPS, students and alumni who need a sticker for their vehicles.',
+      },
+      {
+        title: 'Outside vehicle owners',
+        description: 'PUV operators and private and commercial vehicle owners who need to enter or operate on campus.',
+      },
+      {
+        title: 'Security and Safety Office (SSO)',
+        description:
+          'Verifies applications, inspects vehicles, issues and releases stickers, and records violations and blacklisted vehicles.',
+      },
+      {
+        title: 'OVCCA',
+        description:
+          'Owns the vehicle sticker program: sets policy, categories, periods and fees, and oversees its reports.',
+      },
+    ],
+    challenge: {
+      intro:
+        'Vehicle sticker applications were paper-based. UVISS moves every step of the process into a single online workflow.',
+      points: [
+        'Applicants register their vehicles and upload requirements such as the Certificate of Registration and LTO Official Receipt.',
+        'Offices verify applications and record their remarks in the same system.',
+        'Payment references are recorded against approved applications.',
+        'Inspection, sticker release and appointments are handled in one place, and applicants can follow each step.',
+      ],
+    },
+    approach: {
+      title: 'The application workflow',
+      intro: 'Every application has a status the applicant can track, from submission to an assigned sticker number.',
+      steps: [
+        {
+          title: 'Apply',
+          description:
+            'The applicant registers a vehicle with photos, chooses a sticker category, and uploads the requirements. The application is marked Received.',
+        },
+        {
+          title: 'Verify',
+          description:
+            'The application is assigned to an approver. If something is missing, it is put on hold as Pending, with remarks the applicant can read.',
+        },
+        {
+          title: 'Record payment',
+          description:
+            'Once approved for payment, the applicant submits the payment reference number and date, and the office verifies it.',
+        },
+        {
+          title: 'Inspect',
+          description: 'Vehicles whose model is more than five years old are inspected before a sticker is released.',
+        },
+        {
+          title: 'Release',
+          description: 'The applicant books an appointment slot, and the sticker is prepared for release.',
+        },
+        {
+          title: 'Complete',
+          description:
+            'A sticker number is assigned and the application is closed. The applicant can view the issued sticker online.',
+        },
+      ],
+    },
+    features: [
+      {
+        icon: KeyRound,
+        title: 'Simple, protected sign-in',
+        description:
+          'Sign in with Google or with email and password, with email verification, password reset and CAPTCHA protection.',
+      },
+      {
+        icon: Car,
+        title: 'Vehicle registry',
+        description:
+          'Register one or more vehicles with their details, photos and certificate of registration, from motorcycles and e-bikes to vans.',
+      },
+      {
+        icon: Tags,
+        title: 'Sticker categories',
+        description:
+          'Six categories cover administrative staff, faculty and REPS, alumni, and public utility, private and commercial vehicles.',
+      },
+      {
+        icon: ListChecks,
+        title: 'Status tracking',
+        description:
+          'Applicants follow each application from Received to Completed and read remarks from the office.',
+      },
+      {
+        icon: Receipt,
+        title: 'Payment records',
+        description: 'Payment reference numbers and dates are recorded against approved applications for verification.',
+      },
+      {
+        icon: CalendarCheck,
+        title: 'Appointment booking',
+        description: 'Applicants choose a slot for vehicle inspection or sticker release.',
+      },
+      {
+        icon: Ban,
+        title: 'Violations and blacklist',
+        description: 'The Security and Safety Office records vehicle violations and blacklisted vehicles in the system.',
+      },
+      {
+        icon: Settings2,
+        title: 'Program settings',
+        description: 'Sticker categories, application periods and fees are managed in the system for the OVCCA.',
+      },
+      {
+        icon: Megaphone,
+        title: 'Announcements and FAQs',
+        description: 'Announcements, FAQs and information pages keep applicants informed without a trip to the office.',
+      },
+    ],
+    safeguards: {
+      intro:
+        'UVISS handles personal information and vehicle records covered by the Data Privacy Act of 2012 (RA 10173).',
+      items: [
+        'Uploaded documents and photos are kept private.',
+        'Sign-in is protected by email verification and Cloudflare Turnstile CAPTCHA.',
+        'Administrative access is managed through roles and permissions.',
+      ],
+    },
+    stack: {
+      label: 'Technology stack',
+      items: ['Laravel 10', 'Filament 3', 'MySQL', 'Tailwind CSS', 'Spatie Media Library', 'Filament Shield', 'DomPDF'],
+    },
+    integrations: {
+      label: 'Integrations',
+      items: ['Google sign-in (Laravel Socialite)', 'Cloudflare Turnstile'],
+    },
+    progress: {
+      intro: 'UVISS is in production and run day to day by the Security and Safety Office. Its scope is deliberately focused.',
+      items: [
+        { label: 'Vehicle registration, applications and status tracking', state: 'In production', tone: 'live' },
+        { label: 'Verification, payment records, inspection and sticker release', state: 'In production', tone: 'live' },
+        { label: 'Online payment processing (references are recorded only)', state: 'Out of scope', tone: 'planned' },
+        { label: 'Gate access control, plate recognition and traffic fines', state: 'Out of scope', tone: 'planned' },
+      ],
+    },
+  },
+  {
     slug: 'event-and-certificate-management-system',
     shortName: 'ECMS',
     acronym: 'ECMS',
@@ -1080,7 +1252,7 @@ export const getProject = (slug: string) => projects.find((p) => p.slug === slug
 
 /** Facts that can be stated as numbers, each traceable to a reference document. */
 export const highlights = [
-  { value: '5', label: 'University systems', detail: 'Built across property, health, HR, timekeeping and events' },
+  { value: '6', label: 'University systems', detail: 'Across property, health, HR, timekeeping, vehicles and events' },
   { value: '9', label: 'COA forms automated', detail: 'Generated by AMP from one set of records' },
   { value: '60-day', label: 'Expiry warnings', detail: 'For HR appointments and contracts' },
   { value: '3-click', label: 'Medical certificates', detail: 'Issued straight from a UHIS clinic visit' },
@@ -1115,6 +1287,13 @@ export const milestones = [
     title: 'Timekeeping online',
     description:
       'Attendance, DTRs, leave and COS signing run online, with work underway to send certified DTR summaries to payroll.',
+  },
+  {
+    project: 'UVISS',
+    icon: CarFront,
+    title: 'Stickers processed online',
+    description:
+      'Vehicle sticker applications run online in production, for the OVCCA and the Security and Safety Office.',
   },
   {
     project: 'ECMS',

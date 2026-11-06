@@ -2,9 +2,31 @@
 import { url } from '../lib/url';
 import { ArrowRight } from '@lucide/astro';
 import Button from './Button.astro';
-import StatusBadge from './StatusBadge.astro';
 import { site } from '../data/site';
-import { projects } from '../data/projects';
+import { projects, type StatusTone } from '../data/projects';
+
+const MAX_TILES = 6;
+const overflow = projects.length > MAX_TILES;
+// Leave the last slot for the "+N more" tile when there are too many to show.
+const shown = overflow ? projects.slice(0, MAX_TILES - 1) : projects;
+const hidden = projects.length - shown.length;
+
+const dot: Record<StatusTone, string> = {
+  live: 'bg-emerald-500',
+  ready: 'bg-blue-500',
+  pilot: 'bg-amber-500',
+  planned: 'bg-slate-400',
+};
+// Only list the statuses that appear in the panel.
+const legendLabels: Record<StatusTone, string> = {
+  live: 'In use',
+  ready: 'Rolling out',
+  pilot: 'Pilot or prototype',
+  planned: 'Planned',
+};
+const legend = (Object.keys(legendLabels) as StatusTone[])
+  .filter((tone) => shown.some((p) => p.status.tone === tone))
+  .map((tone) => ({ tone, label: legendLabels[tone] }));
 ---
 
 <section class="relative overflow-hidden border-b border-line bg-subtle" aria-labelledby="hero-title">
@@ -31,42 +53,69 @@ import { projects } from '../data/projects';
       </div>
     </div>
 
-    <!-- Overview of the systems ISDS builds; each row links to its project page -->
+    <!--
+      Compact overview of the systems ISDS builds. Shows at most MAX_TILES;
+      beyond that, the last tile links to the full projects page so the hero
+      keeps the same height as the portfolio grows.
+    -->
     <div class="relative">
       <div class="rounded-2xl border border-line bg-white p-2 shadow-xl shadow-slate-200/60">
         <div class="flex items-center justify-between px-4 pt-3 pb-3">
           <p class="text-sm font-semibold text-ink">Systems we build</p>
-          <p class="text-xs text-muted">{projects.length} projects</p>
+          <a href={url('/projects')} class="text-xs font-medium text-accent hover:text-accent-strong">
+            View all {projects.length}
+          </a>
         </div>
-        <ul class="divide-y divide-line rounded-xl border border-line">
+        <ul class="grid grid-cols-2 gap-2">
           {
-            projects.map((p) => {
+            shown.map((p) => {
               const Icon = p.icon;
               return (
                 <li>
                   <a
                     href={url(`/projects/${p.slug}`)}
-                    class="flex items-center gap-4 px-4 py-4 transition-colors first:rounded-t-xl hover:bg-subtle"
+                    class="flex h-full items-center gap-3 rounded-xl border border-line p-3 transition-colors hover:border-slate-300 hover:bg-subtle"
                   >
-                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
-                      <Icon class="size-5" stroke-width={1.75} aria-hidden="true" />
+                    <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
+                      <Icon class="size-[18px]" stroke-width={1.75} aria-hidden="true" />
                     </span>
                     <span class="min-w-0 flex-1">
-                      <span class="block truncate text-sm font-semibold text-ink">{p.shortName}</span>
+                      <span class="flex items-center gap-1.5">
+                        <span class="truncate text-sm font-semibold text-ink">{p.shortName}</span>
+                        <span class:list={['size-1.5 shrink-0 rounded-full', dot[p.status.tone]]} title={p.status.label} aria-hidden="true" />
+                        <span class="sr-only">({p.status.label})</span>
+                      </span>
                       <span class="block truncate text-xs text-muted">{p.domain}</span>
-                    </span>
-                    <span class="hidden sm:block">
-                      <StatusBadge tone={p.status.tone} label={p.status.label} />
                     </span>
                   </a>
                 </li>
               );
             })
           }
+          {
+            hidden > 0 && (
+              <li>
+                <a
+                  href={url('/projects')}
+                  class="flex h-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-line p-3 text-sm font-medium text-muted transition-colors hover:border-slate-300 hover:text-ink"
+                >
+                  +{hidden} more
+                  <ArrowRight class="size-4" aria-hidden="true" />
+                </a>
+              </li>
+            )
+          }
         </ul>
-        <p class="px-4 pt-3 pb-2 text-xs text-muted">
-          Connected where it counts: HR records feed asset accountability, timekeeping and performance.
-        </p>
+        <ul class="flex flex-wrap gap-x-4 gap-y-1 px-4 pt-3 pb-2 text-xs text-muted" aria-label="Status key">
+          {
+            legend.map((l) => (
+              <li class="flex items-center gap-1.5">
+                <span class:list={['size-1.5 rounded-full', dot[l.tone]]} aria-hidden="true" />
+                {l.label}
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </div>

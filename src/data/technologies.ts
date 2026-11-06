@@ -13,12 +13,12 @@ export const technologies: TechGroup[] = [
     title: 'Application frameworks',
     description: 'The web stack behind our admin panels, portals and editors.',
     items: [
-      { name: 'PHP', usedIn: ['ECMS'] },
-      { name: 'Laravel 12', usedIn: ['ECMS'] },
-      { name: 'Filament 5', usedIn: ['ECMS'] },
+      { name: 'PHP', usedIn: ['UVISS', 'ECMS'] },
+      { name: 'Laravel', usedIn: ['UVISS', 'ECMS'] },
+      { name: 'Filament', usedIn: ['UVISS', 'ECMS'] },
       { name: 'Blade', usedIn: ['ECMS'] },
       { name: 'JavaScript (ES modules)', usedIn: ['ECMS'] },
-      { name: 'Tailwind CSS 4', usedIn: ['ECMS'] },
+      { name: 'Tailwind CSS', usedIn: ['UVISS', 'ECMS'] },
       { name: 'Vite', usedIn: ['ECMS'] },
       { name: 'Fabric.js', usedIn: ['ECMS'] },
       { name: 'Flutter', usedIn: ['AMP'] },
@@ -28,6 +28,7 @@ export const technologies: TechGroup[] = [
     title: 'Data and infrastructure',
     description: 'Services that move, cache, store and process data reliably.',
     items: [
+      { name: 'MySQL', usedIn: ['UVISS'] },
       { name: 'Apache Kafka', usedIn: ['AMP'] },
       { name: 'Redis', usedIn: ['AMP'] },
       { name: 'S3 storage', usedIn: ['AMP'] },
@@ -43,7 +44,8 @@ export const technologies: TechGroup[] = [
     items: [
       { name: 'UP Portal SSO', usedIn: ['AMP'] },
       { name: 'UP Mail sign-in', usedIn: ['AMP', 'UHIS', 'Personnel System'] },
-      { name: 'Google sign-in', usedIn: ['TKS', 'ECMS'] },
+      { name: 'Google sign-in', usedIn: ['TKS', 'UVISS', 'ECMS'] },
+      { name: 'Cloudflare Turnstile', usedIn: ['UVISS'] },
       { name: 'Google Calendar', usedIn: ['TKS'] },
       { name: 'University Directory (UDR)', usedIn: ['Personnel System'] },
       { name: 'HR system data sharing', usedIn: ['AMP', 'TKS'] },
@@ -54,7 +56,7 @@ export const technologies: TechGroup[] = [
     title: 'Documents and verification',
     description: 'Official documents that are generated and can be verified.',
     items: [
-      { name: 'PDF generation', usedIn: ['AMP', 'UHIS', 'Personnel System', 'ECMS'] },
+      { name: 'PDF generation', usedIn: ['AMP', 'UHIS', 'Personnel System', 'UVISS', 'ECMS'] },
       { name: 'QR code verification', usedIn: ['AMP', 'UHIS', 'TKS', 'ECMS'] },
       { name: 'Digital document signing', usedIn: ['TKS'] },
       { name: 'Audit trails', usedIn: ['AMP', 'UHIS', 'Personnel System', 'TKS', 'ECMS'] },
