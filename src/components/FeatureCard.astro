@@ -1,0 +1,28 @@
+---
+import type { Icon } from '../data/projects';
+
+interface Props {
+  icon: Icon;
+  title: string;
+  description: string;
+  meta?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { icon: IconComponent, title, description, meta, headingLevel: H = 'h3' } = Astro.props;
+---
+
+<article class="flex h-full flex-col rounded-xl border border-line bg-white p-6 transition-shadow duration-200 hover:shadow-md hover:shadow-slate-200/60">
+  <span class="inline-flex size-10 items-center justify-center rounded-lg bg-accent-soft text-accent ring-1 ring-blue-100">
+    <IconComponent class="size-5" aria-hidden="true" stroke-width={1.75} />
+  </span>
+  <H class="mt-5 text-base font-semibold text-ink">{title}</H>
+  <p class="mt-2 text-[15px] leading-relaxed text-muted">{description}</p>
+  {
+    meta && (
+      <p class="mt-auto pt-5 text-xs leading-relaxed text-slate-500">
+        <span class="font-medium text-slate-600">In practice: </span>
+        {meta}
+      </p>
+    )
+  }
+</article>

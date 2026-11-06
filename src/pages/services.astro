@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import TechnologyBadge from '../components/TechnologyBadge.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { services } from '../data/services';
+import { technologies } from '../data/technologies';
+
+const steps = [
+  {
+    title: 'Understand the process',
+    description: 'Start from how the office works today: its forms, approvals and the questions it answers every day.',
+  },
+  {
+    title: 'Design the data',
+    description: 'Model one reliable record that every form, report and connected system can draw from.',
+  },
+  {
+    title: 'Build and integrate',
+    description: 'Develop the application and connect it to existing services such as UP sign-in and HR records.',
+  },
+  {
+    title: 'Roll out in phases',
+    description: 'Release the most useful parts first, pilot with selected users, and expand as offices are ready.',
+  },
+  {
+    title: 'Maintain and improve',
+    description: 'Keep the system reliable and refine it based on how people actually use it.',
+  },
+];
+---
+
+<BaseLayout
+  title="Services and Expertise"
+  description="Information systems development, database design, process automation, systems integration, maintenance, and technical innovation from ISDS at UPLB."
+>
+  <section class="border-b border-line bg-subtle">
+    <div class="grid-backdrop">
+      <div class="container-page py-16 sm:py-24">
+        <SectionHeading
+          as="h1"
+          eyebrow="Services and expertise"
+          title="Practical technology for institutional work"
+          description="We help university offices replace manual, repetitive processes with systems that are reliable, secure and easy to use."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24" aria-labelledby="services-title">
+    <div class="container-page">
+      <h2 id="services-title" class="sr-only">Services</h2>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => <FeatureCard icon={s.icon} title={s.title} description={s.description} meta={s.evidence} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-subtle py-20 sm:py-24" aria-labelledby="process-title">
+    <div class="container-page">
+      <SectionHeading
+        id="process-title"
+        eyebrow="How we work"
+        title="From paper process to working system"
+        description="The same approach runs through each of our projects."
+      />
+      <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        {
+          steps.map((s, i) => (
+            <li class="relative rounded-xl border border-line bg-white p-6">
+              <span class="text-sm font-semibold text-accent tabular-nums">0{i + 1}</span>
+              <h3 class="mt-3 font-semibold text-ink">{s.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{s.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-24" aria-labelledby="tech-title">
+    <div class="container-page">
+      <SectionHeading
+        id="tech-title"
+        eyebrow="Technologies"
+        title="The tools behind our systems"
+        description="Technologies used in our project work, with the projects that use each one."
+      />
+      <div class="mt-12 grid gap-5 lg:grid-cols-2">
+        {
+          technologies.map((group) => (
+            <div class="rounded-xl border border-line p-6 sm:p-8">
+              <h3 class="text-lg font-semibold text-ink">{group.title}</h3>
+              <p class="mt-1 text-sm text-muted">{group.description}</p>
+              <ul class="mt-6 flex flex-wrap gap-2">
+                {group.items.map((t) => <TechnologyBadge name={t.name} detail={t.usedIn.join(', ')} />)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CallToAction />
+</BaseLayout>

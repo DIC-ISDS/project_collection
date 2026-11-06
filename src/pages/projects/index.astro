@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { projects } from '../../data/projects';
+---
+
+<BaseLayout
+  title="Projects"
+  description="Information systems built by ISDS for UPLB: asset management, health services, HR records, timekeeping, and event certificates."
+>
+  <section class="border-b border-line bg-subtle">
+    <div class="grid-backdrop">
+      <div class="container-page py-16 sm:py-24">
+        <SectionHeading
+          as="h1"
+          eyebrow="Projects"
+          title="Systems that replace paper with one shared record"
+          description="Each system is built with the office that uses it. Here is what each one does, who it serves, and where it stands today."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-20" aria-label="Project list">
+    <div class="container-page grid gap-6 md:grid-cols-2">
+      {projects.map((p, i) => <ProjectCard project={p} headingLevel="h2" wide={projects.length % 2 === 1 && i === projects.length - 1} />)}
+    </div>
+  </section>
+
+  <CallToAction title="Want a system like these for your office?" />
+</BaseLayout>

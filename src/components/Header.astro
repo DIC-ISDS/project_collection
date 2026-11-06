@@ -1,0 +1,101 @@
+---
+import { Menu, X } from '@lucide/astro';
+import Logo from './Logo.astro';
+import Button from './Button.astro';
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+---
+
+<header class="sticky top-0 z-50 border-b border-line/80 bg-white/85 backdrop-blur-md supports-[backdrop-filter]:bg-white/75">
+  <div class="container-page flex h-16 items-center justify-between gap-6">
+    <a href="/" class="rounded-md" aria-label="ISDS home">
+      <Logo />
+    </a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class:list={[
+                  'relative block rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  isActive(item.href) ? 'text-ink' : 'text-muted hover:text-ink',
+                ]}
+              >
+                {item.label}
+                {isActive(item.href) && <span class="absolute inset-x-0 -bottom-0.5 mx-auto h-0.5 w-4 rounded-full bg-accent" aria-hidden="true" />}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden md:block">
+      <Button href="/contact" size="sm">Work with us</Button>
+    </div>
+
+    <button
+      type="button"
+      class="inline-flex size-10 items-center justify-center rounded-md text-ink hover:bg-subtle md:hidden"
+      aria-controls="mobile-nav"
+      aria-expanded="false"
+      data-menu-toggle
+    >
+      <span class="sr-only">Open menu</span>
+      <Menu class="size-5" data-icon-open aria-hidden="true" />
+      <X class="hidden size-5" data-icon-close aria-hidden="true" />
+    </button>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Mobile" class="hidden border-t border-line bg-white md:hidden" data-menu>
+    <ul class="container-page flex flex-col py-3">
+      {
+        nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[
+                'flex min-h-11 items-center rounded-md px-3 text-base font-medium',
+                isActive(item.href) ? 'bg-accent-soft text-accent-strong' : 'text-ink hover:bg-subtle',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="mt-2 px-1 pb-1">
+        <Button href="/contact" class="w-full">Work with us</Button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  if (toggle && menu) {
+    const set = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.querySelector('.sr-only')!.textContent = open ? 'Close menu' : 'Open menu';
+      toggle.querySelector('[data-icon-open]')?.classList.toggle('hidden', open);
+      toggle.querySelector('[data-icon-close]')?.classList.toggle('hidden', !open);
+      menu.classList.toggle('hidden', !open);
+    };
+    toggle.addEventListener('click', () => set(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        toggle.focus();
+      }
+    });
+    matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && set(false));
+  }
+</script>

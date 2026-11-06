@@ -1,0 +1,57 @@
+---
+import { Mail } from '@lucide/astro';
+import Logo from './Logo.astro';
+import { nav, site, mailto } from '../data/site';
+import { projects } from '../data/projects';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy text-slate-300">
+  <div class="container-page grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div class="max-w-sm">
+      <a href="/" class="inline-block rounded-md" aria-label="ISDS home"><Logo inverted /></a>
+      <p class="mt-5 text-sm leading-relaxed text-slate-400">
+        {site.name}, {site.department}, {site.institution}. We build the information systems behind university
+        operations.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold text-white">Navigate</h2>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        {nav.map((item) => <li><a class="hover:text-white" href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold text-white">Projects</h2>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        {
+          projects.map((p) => (
+            <li>
+              <a class="hover:text-white" href={`/projects/${p.slug}`}>
+                {p.shortName}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-semibold text-white">Contact</h2>
+      <p class="mt-4 text-sm text-slate-400">{site.contact.leadName}, {site.contact.leadRole}</p>
+      <a href={mailto()} class="mt-2 inline-flex items-center gap-2 text-sm font-medium text-white hover:text-blue-300">
+        <Mail class="size-4" aria-hidden="true" />
+        {site.contact.email}
+      </a>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="container-page flex flex-col gap-2 py-6 text-xs text-slate-400 sm:flex-row sm:justify-between">
+      <p>© {year} {site.shortName}, {site.department}, {site.institutionShort}.</p>
+      <p>{site.tagline}</p>
+    </div>
+  </div>
+</footer>

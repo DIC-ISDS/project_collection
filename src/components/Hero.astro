@@ -1,0 +1,72 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import Button from './Button.astro';
+import StatusBadge from './StatusBadge.astro';
+import { site } from '../data/site';
+import { projects } from '../data/projects';
+---
+
+<section class="relative overflow-hidden border-b border-line bg-subtle" aria-labelledby="hero-title">
+  <div class="grid-backdrop pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top_left,black_30%,transparent_75%)]"></div>
+
+  <div class="container-page relative grid items-center gap-14 py-16 sm:py-24 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+    <div>
+      <p class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1 text-xs font-medium text-slate-600">
+        <span class="size-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+        {site.department}, {site.institutionShort}
+      </p>
+      <h1 id="hero-title" class="mt-6 text-4xl leading-[1.08] font-semibold tracking-tight text-balance text-ink sm:text-5xl lg:text-[3.4rem]">
+        Building smarter systems for a more connected university.
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-muted">
+        {site.description}
+      </p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+        <Button href="/projects">
+          Explore our projects
+          <ArrowRight class="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        </Button>
+        <Button href="/contact" variant="secondary">Start a conversation</Button>
+      </div>
+    </div>
+
+    <!-- Overview of the systems ISDS builds; each row links to its project page -->
+    <div class="relative">
+      <div class="rounded-2xl border border-line bg-white p-2 shadow-xl shadow-slate-200/60">
+        <div class="flex items-center justify-between px-4 pt-3 pb-3">
+          <p class="text-sm font-semibold text-ink">Systems we build</p>
+          <p class="text-xs text-muted">{projects.length} projects</p>
+        </div>
+        <ul class="divide-y divide-line rounded-xl border border-line">
+          {
+            projects.map((p) => {
+              const Icon = p.icon;
+              return (
+                <li>
+                  <a
+                    href={`/projects/${p.slug}`}
+                    class="flex items-center gap-4 px-4 py-4 transition-colors first:rounded-t-xl hover:bg-subtle"
+                  >
+                    <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">
+                      <Icon class="size-5" stroke-width={1.75} aria-hidden="true" />
+                    </span>
+                    <span class="min-w-0 flex-1">
+                      <span class="block truncate text-sm font-semibold text-ink">{p.shortName}</span>
+                      <span class="block truncate text-xs text-muted">{p.domain}</span>
+                    </span>
+                    <span class="hidden sm:block">
+                      <StatusBadge tone={p.status.tone} label={p.status.label} />
+                    </span>
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+        <p class="px-4 pt-3 pb-2 text-xs text-muted">
+          Connected where it counts: HR records feed asset accountability, timekeeping and performance.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

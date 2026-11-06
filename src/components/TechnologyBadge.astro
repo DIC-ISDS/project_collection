@@ -1,0 +1,20 @@
+---
+interface Props {
+  name: string;
+  detail?: string;
+  dark?: boolean;
+}
+const { name, detail, dark = false } = Astro.props;
+---
+
+<li
+  class:list={[
+    'inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm ring-1 ring-inset',
+    dark ? 'bg-white/5 text-slate-200 ring-white/10' : 'bg-white text-ink ring-line',
+  ]}
+  title={detail}
+>
+  <span class:list={['size-1.5 rounded-full', dark ? 'bg-blue-400' : 'bg-accent']} aria-hidden="true"></span>
+  <span>{name}</span>
+  {detail && <span class:list={['text-xs', dark ? 'text-slate-400' : 'text-slate-500']}>{detail}</span>}
+</li>

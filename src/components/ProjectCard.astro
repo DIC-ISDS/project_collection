@@ -1,0 +1,59 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import type { Project } from '../data/projects';
+import ProjectVisual from './ProjectVisual.astro';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  project: Project;
+  headingLevel?: 'h2' | 'h3';
+  /** Span both grid columns, with the preview beside the text on large screens */
+  wide?: boolean;
+}
+const { project, headingLevel: H = 'h3', wide = false } = Astro.props;
+const href = `/projects/${project.slug}`;
+---
+
+<article
+  class:list={[
+    'group relative flex h-full flex-col rounded-xl border border-line bg-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/70',
+    wide && 'md:col-span-2 lg:flex-row',
+  ]}
+>
+  <ProjectVisual project={project} wide={wide} />
+  <div class="flex flex-1 flex-col p-6">
+    <div class="flex flex-wrap items-center gap-2">
+      <StatusBadge tone={project.status.tone} label={project.status.label} />
+      <span class="text-xs font-medium text-muted">{project.domain}</span>
+    </div>
+    <H class="mt-4 text-xl font-semibold tracking-tight text-ink">
+      <a href={href} class="after:absolute after:inset-0 after:rounded-xl focus-visible:outline-none">
+        {project.name}
+      </a>
+    </H>
+    <p class="mt-1 text-sm text-muted">Built for {project.partner}</p>
+    <p class="mt-4 text-[15px] leading-relaxed text-slate-700">{project.tagline}</p>
+
+    <div class="mt-5 rounded-lg bg-subtle px-4 py-3">
+      <p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Problem addressed</p>
+      <p class="mt-1 text-sm leading-relaxed text-slate-700">{project.problem}</p>
+    </div>
+
+    <ul class="mt-5 flex flex-wrap gap-2" aria-label="Key capabilities">
+      {project.highlights.map((h) => <li class="rounded-md border border-line px-2.5 py-1 text-xs font-medium text-slate-600">{h}</li>)}
+    </ul>
+
+    <p class="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold text-accent" aria-hidden="true">
+      View project
+      <ArrowRight class="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </p>
+  </div>
+</article>
+
+<style>
+  /* Show a focus ring on the whole card when its stretched link is focused */
+  article:has(a:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+</style>

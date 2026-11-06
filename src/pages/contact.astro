@@ -1,0 +1,110 @@
+---
+import { Mail, MapPin, UserRound, ArrowRight } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import Button from '../components/Button.astro';
+import { site, mailto } from '../data/site';
+
+const topics = [
+  { title: 'A new system', subject: 'New system inquiry', description: 'Your office has a manual or paper-based process that needs a system.' },
+  { title: 'An existing project', subject: 'Question about an existing project', description: 'You use one of our systems, or would like to adopt one.' },
+  { title: 'Collaboration', subject: 'Collaboration inquiry', description: 'You want to partner with us on systems integration or development.' },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact the Information Systems Development and Database Section (ISDS) of the Digital Innovation Center, UPLB, about project inquiries and collaboration."
+>
+  <section class="border-b border-line bg-subtle">
+    <div class="grid-backdrop">
+      <div class="container-page py-16 sm:py-24">
+        <SectionHeading
+          as="h1"
+          eyebrow="Contact"
+          title="Let’s talk about what your office needs"
+          description="Whether you have a process to digitize, a system to improve, or an idea to explore together, send us a note. Describe how the work is done today, and we will take it from there."
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 sm:py-24" aria-label="Contact information">
+    <div class="container-page grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+      <div class="grid-backdrop-dark rounded-2xl bg-navy p-8 text-white sm:p-10">
+        <h2 class="text-2xl font-semibold tracking-tight">Get in touch</h2>
+        <dl class="mt-8 space-y-7">
+          <div class="flex gap-4">
+            <dt>
+              <span class="sr-only">Contact person</span>
+              <UserRound class="mt-0.5 size-5 text-blue-300" aria-hidden="true" stroke-width={1.75} />
+            </dt>
+            <dd>
+              <p class="font-semibold">{site.contact.leadName}</p>
+              <p class="text-sm text-slate-400">{site.contact.leadRole}</p>
+            </dd>
+          </div>
+          <div class="flex gap-4">
+            <dt>
+              <span class="sr-only">Email</span>
+              <Mail class="mt-0.5 size-5 text-blue-300" aria-hidden="true" stroke-width={1.75} />
+            </dt>
+            <dd>
+              <a href={mailto()} class="font-semibold break-all underline decoration-white/30 underline-offset-4 hover:decoration-white">
+                {site.contact.email}
+              </a>
+            </dd>
+          </div>
+          <div class="flex gap-4">
+            <dt>
+              <span class="sr-only">Office</span>
+              <MapPin class="mt-0.5 size-5 text-blue-300" aria-hidden="true" stroke-width={1.75} />
+            </dt>
+            <dd>
+              <address class="text-sm leading-relaxed text-slate-300 not-italic">
+                {site.contact.address.map((line) => <span class="block">{line}</span>)}
+              </address>
+            </dd>
+          </div>
+        </dl>
+        <div class="mt-10">
+          <Button href={mailto()} variant="light">
+            <Mail class="size-4" aria-hidden="true" />
+            Send an email
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold text-ink">What can we help with?</h2>
+        <p class="mt-2 text-[15px] text-muted">Choose a topic to start an email with the subject already filled in.</p>
+        <ul class="mt-6 space-y-3">
+          {
+            topics.map((t) => (
+              <li>
+                <a
+                  href={mailto(t.subject)}
+                  class="group flex items-center justify-between gap-4 rounded-xl border border-line bg-white p-5 transition-colors hover:border-slate-300 hover:bg-subtle"
+                >
+                  <span>
+                    <span class="block font-semibold text-ink">{t.title}</span>
+                    <span class="mt-1 block text-sm leading-relaxed text-muted">{t.description}</span>
+                  </span>
+                  <ArrowRight class="size-5 shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="mt-8 rounded-xl bg-subtle p-5">
+          <p class="text-sm font-semibold text-ink">Helpful to include</p>
+          <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted marker:text-slate-400">
+            <li>Your office and the people who would use the system</li>
+            <li>How the process works today, including forms and approvals</li>
+            <li>Any deadlines or systems it needs to work with</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
