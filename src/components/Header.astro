@@ -3,14 +3,15 @@ import { Menu, X } from '@lucide/astro';
 import Logo from './Logo.astro';
 import Button from './Button.astro';
 import { nav } from '../data/site';
+import { url, stripBase } from '../lib/url';
 
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = stripBase(Astro.url.pathname).replace(/\/$/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
 ---
 
 <header class="sticky top-0 z-50 border-b border-line/80 bg-white/85 backdrop-blur-md supports-[backdrop-filter]:bg-white/75">
   <div class="container-page flex h-16 items-center justify-between gap-6">
-    <a href="/" class="rounded-md" aria-label="ISDS home">
+    <a href={url('/')} class="rounded-md" aria-label="ISDS home">
       <Logo />
     </a>
 
@@ -20,7 +21,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
           nav.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
                 class:list={[
                   'relative block rounded-md px-3 py-2 text-sm font-medium transition-colors',
@@ -37,7 +38,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
     </nav>
 
     <div class="hidden md:block">
-      <Button href="/contact" size="sm">Work with us</Button>
+      <Button href={url('/contact')} size="sm">Work with us</Button>
     </div>
 
     <button
@@ -59,7 +60,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
         nav.map((item) => (
           <li>
             <a
-              href={item.href}
+              href={url(item.href)}
               aria-current={isActive(item.href) ? 'page' : undefined}
               class:list={[
                 'flex min-h-11 items-center rounded-md px-3 text-base font-medium',
@@ -72,7 +73,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path === href 
         ))
       }
       <li class="mt-2 px-1 pb-1">
-        <Button href="/contact" class="w-full">Work with us</Button>
+        <Button href={url('/contact')} class="w-full">Work with us</Button>
       </li>
     </ul>
   </nav>

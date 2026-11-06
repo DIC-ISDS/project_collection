@@ -1,4 +1,5 @@
 ---
+import { url } from '../../lib/url';
 import type { GetStaticPaths } from 'astro';
 import { ArrowLeft, ArrowRight, ChevronRight, Info, ShieldCheck, Gauge, Mail } from '@lucide/astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -33,7 +34,7 @@ const techGroups = [project.stack, project.integrations].filter((g): g is NonNul
     <div class="container-page py-12 sm:py-16">
       <nav aria-label="Breadcrumb">
         <ol class="flex items-center gap-1.5 text-sm text-muted">
-          <li><a href="/projects" class="hover:text-ink">Projects</a></li>
+          <li><a href={url('/projects')} class="hover:text-ink">Projects</a></li>
           <li aria-hidden="true"><ChevronRight class="size-3.5" /></li>
           <li aria-current="page" class="truncate text-ink">{project.shortName}</li>
         </ol>
@@ -55,7 +56,7 @@ const techGroups = [project.stack, project.integrations].filter((g): g is NonNul
               <Mail class="size-4" aria-hidden="true" />
               Ask about this project
             </Button>
-            <Button href="/projects" variant="secondary">
+            <Button href={url('/projects')} variant="secondary">
               <ArrowLeft class="size-4" aria-hidden="true" />
               All projects
             </Button>
@@ -247,7 +248,7 @@ const techGroups = [project.stack, project.integrations].filter((g): g is NonNul
   <section class="border-t border-line" aria-label="Next project">
     <div class="container-page py-10">
       <a
-        href={`/projects/${next.slug}`}
+        href={url(`/projects/${next.slug}`)}
         class="group flex items-center justify-between gap-6 rounded-xl p-2 transition-colors"
       >
         <span>

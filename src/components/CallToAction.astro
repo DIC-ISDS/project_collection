@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { ArrowRight, Mail } from '@lucide/astro';
 import Button from './Button.astro';
 import { mailto, site } from '../data/site';
@@ -27,7 +28,7 @@ const {
             <Mail class="size-4" aria-hidden="true" />
             Email {site.shortName}
           </Button>
-          <Button href="/contact" variant="glass">
+          <Button href={url('/contact')} variant="glass">
             Contact details
             <ArrowRight class="size-4" aria-hidden="true" />
           </Button>

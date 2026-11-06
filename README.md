@@ -32,7 +32,27 @@ The finished site is written to `dist/`.
 
 `dist/` is plain static HTML, CSS and fonts, so any static host works: a university web server (Apache or Nginx), GitHub Pages, Netlify, Cloudflare Pages or Vercel.
 
-- **Build command:** `npm run build` (with `SITE_URL` set as an environment variable)
+### GitHub Pages (current setup)
+
+`.github/workflows/deploy.yml` builds and deploys the site on every push to `main`, and can also be run by hand from the Actions tab.
+
+1. In the repository, go to **Settings → Pages** and set **Source** to **GitHub Actions** (one-time).
+2. Push to `main`. The site is published at `https://dic-isds.github.io/project_collection/`.
+
+The workflow sets `SITE_URL=https://dic-isds.github.io` and `BASE_PATH=/project_collection`. If the repository is renamed, update `BASE_PATH`. For a custom domain, add it under Settings → Pages, then set `SITE_URL` to that domain and `BASE_PATH` to `/`.
+
+Internal links must go through `url()` from `src/lib/url.ts`, so they include the base path. A plain `href="/about"` works locally but breaks on GitHub Pages.
+
+To preview the GitHub Pages build locally:
+
+```sh
+SITE_URL=https://dic-isds.github.io BASE_PATH=/project_collection npm run build
+npm run preview   # open http://localhost:4321/project_collection/
+```
+
+### Other hosts
+
+- **Build command:** `npm run build` (with `SITE_URL`, and `BASE_PATH` if served from a subpath)
 - **Output directory:** `dist`
 - `404.html` is generated; configure the host to serve it for unknown paths if it doesn’t do so automatically.
 

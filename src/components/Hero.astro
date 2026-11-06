@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { ArrowRight } from '@lucide/astro';
 import Button from './Button.astro';
 import StatusBadge from './StatusBadge.astro';
@@ -22,11 +23,11 @@ import { projects } from '../data/projects';
         {site.description}
       </p>
       <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-        <Button href="/projects">
+        <Button href={url('/projects')}>
           Explore our projects
           <ArrowRight class="size-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
         </Button>
-        <Button href="/contact" variant="secondary">Start a conversation</Button>
+        <Button href={url('/contact')} variant="secondary">Start a conversation</Button>
       </div>
     </div>
 
@@ -44,7 +45,7 @@ import { projects } from '../data/projects';
               return (
                 <li>
                   <a
-                    href={`/projects/${p.slug}`}
+                    href={url(`/projects/${p.slug}`)}
                     class="flex items-center gap-4 px-4 py-4 transition-colors first:rounded-t-xl hover:bg-subtle"
                   >
                     <span class="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-navy text-white">

@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { ArrowRight, Check } from '@lucide/astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
@@ -49,7 +50,7 @@ const principles = [
         description={site.about[1]}
       >
         <div class="mt-8">
-          <Button href="/about" variant="secondary">
+          <Button href={url('/about')} variant="secondary">
             More about ISDS
             <ArrowRight class="size-4" aria-hidden="true" />
           </Button>
@@ -83,7 +84,7 @@ const principles = [
           title="Systems built for real university work"
           description="Each project replaces a paper or spreadsheet process with one shared record that the whole office can rely on."
         />
-        <Button href="/projects" variant="secondary" class="self-start sm:self-auto">All projects</Button>
+        <Button href={url('/projects')} variant="secondary" class="self-start sm:self-auto">All projects</Button>
       </div>
       <div class="mt-12 grid gap-6 md:grid-cols-2">
         {projects.map((p, i) => <ProjectCard project={p} wide={projects.length % 2 === 1 && i === projects.length - 1} />)}

@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { Compass, Target, BuildingComplex } from '@lucide/astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
@@ -107,7 +108,7 @@ const partners = projects.map((p) => ({ name: p.partner, project: p.shortName, s
           partners.map((p) => (
             <li>
               <a
-                href={`/projects/${p.slug}`}
+                href={url(`/projects/${p.slug}`)}
                 class="flex h-full flex-col rounded-xl border border-line bg-white p-5 transition-colors hover:border-slate-300"
               >
                 <BuildingComplex class="size-5 text-slate-400" aria-hidden="true" stroke-width={1.75} />
